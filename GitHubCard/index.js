@@ -2,6 +2,8 @@
            (replacing the palceholder with your Github name):
            https://api.github.com/users/<your name>
 */
+let githubUser = axios.get("https://api.github.com/users/OksanaK24")
+console.log(githubUser);
 
 /* Step 2: Inspect and study the data coming back, this is YOUR 
    github info! You will need to understand the structure of this 
@@ -14,6 +16,7 @@
            create a new component and add it to the DOM as a child of .cards
 */
 
+
 /* Step 5: Now that you have your own card getting added to the DOM, either 
           follow this link in your browser https://api.github.com/users/<Your github name>/followers 
           , manually find some other users' github handles, or use the list found 
@@ -24,7 +27,13 @@
           user, and adding that card to the DOM.
 */
 
-const followersArray = [];
+const followersArray = [
+  "https://api.github.com/users/tetondan",
+  "https://api.github.com/users/dustinmyers",
+  "https://api.github.com/users/justsml",
+  "https://api.github.com/users/luishrd",
+  "https://api.github.com/users/bigknell"
+];
 
 /* Step 3: Create a function that accepts a single object as its only argument,
           Using DOM methods and properties, create a component that will return the following DOM element:
@@ -53,3 +62,80 @@ const followersArray = [];
   luishrd
   bigknell
 */
+let card = document.querySelector(".cards");
+
+function cardCreator(arr){
+  let divCard = document.createElement("div");
+  divCard.classList.add("card");
+
+  let img = document.createElement("img");
+  img.src = arr.avatar_url;
+  divCard.appendChild(img);
+
+  let divCardInfo = document.createElement("div");
+  divCardInfo.classList.add("card-info");
+  divCard.appendChild(divCardInfo);
+
+  let header = document.createElement("h3");
+  header.classList.add("name");
+  header.textContent = arr.name;
+  divCardInfo.appendChild(header);
+
+  let parUser = document.createElement("p");
+  parUser.classList.add("username");
+  parUser.textContent = arr.login;
+  divCardInfo.appendChild(parUser);
+
+  let parLocation = document.createElement("p");
+  parLocation.textContent = arr.location;
+  divCardInfo.appendChild(parLocation);
+
+  let parProfile = document.createElement("p");
+  let aLink = document.createElement("a");
+  aLink.href = arr.url;
+  aLink.textContent = arr.url;
+  aLink.target = '_blank'
+  parProfile.textContent = "Profile:  ";
+  parProfile.appendChild(aLink);
+  divCardInfo.appendChild(parProfile);
+
+  let parFollowers = document.createElement("p");
+  parFollowers.textContent = `Followers: ${arr.followers}`;
+  divCardInfo.appendChild(parFollowers);
+
+  let parFollowing = document.createElement("p");
+  parFollowing.textContent = `Following: ${arr.following}`;
+  divCardInfo.appendChild(parFollowing);
+
+  let parBio = document.createElement("p");
+  parBio.textContent = `Bio: ${arr.bio}`;
+  divCardInfo.appendChild(parBio);
+
+  return divCard;
+}
+
+// card.appendChild(cardCreator())
+// console.log(cardCreator());
+
+let Oksana = axios.get("https://api.github.com/users/OksanaK24")
+  .then( (response) => {
+    console.log(response);
+    card.appendChild(cardCreator(response.data))
+  })
+  .catch( error => {
+    console.log("Wrong way")
+  })
+
+  // console.log(Oksana);
+  for (let i=0; i<followersArray.length; i++){
+  let newFollower = axios.get(followersArray[i])
+  .then(response =>{
+    console.log(response);
+    card.appendChild(cardCreator(response.data))
+  })
+  .catch( error => {
+    console.log("Wrong way")
+  })
+
+  // console.log(newFollower[i]);
+}
