@@ -3,6 +3,7 @@
            https://api.github.com/users/<your name>
 */
 
+
 /* Step 2: Inspect and study the data coming back, this is YOUR 
    github info! You will need to understand the structure of this 
    data in order to use it to build your component function 
@@ -13,6 +14,7 @@
 /* Step 4: Pass the data received from Github into your function, 
            create a new component and add it to the DOM as a child of .cards
 */
+
 
 /* Step 5: Now that you have your own card getting added to the DOM, either 
           follow this link in your browser https://api.github.com/users/<Your github name>/followers 
@@ -45,6 +47,62 @@ const followersArray = [];
 </div>
 
 */
+let card = document.querySelector(".cards");
+
+function cardCreator(ImageUrl, name, username, location, profileLink, followers, followingP, bio){
+  let divCard = document.createElement("div");
+  divCard.classList.add("card");
+
+  let img = document.createElement("img");
+  img.src = ImageUrl;
+  divCard.appendChild(img);
+
+  let divCardInfo = document.createElement("div");
+  divCardInfo.classList.add("card-info");
+  divCard.appendChild(divCardInfo);
+
+  let header = document.createElement("h3");
+  header.classList.add("name");
+  header.textContent = name;
+  divCardInfo.appendChild(header);
+
+  let parUser = document.createElement("p");
+  parUser.classList.add("username");
+  parUser.textContent = username;
+  divCardInfo.appendChild(parUser);
+
+  let parLocation = document.createElement("p");
+  parLocation.textContent = location;
+  divCardInfo.appendChild(parLocation);
+
+  let parProfile = document.createElement("p");
+  let aLink = document.createElement("a");
+  aLink.href = profileLink;
+  aLink.textContent = profileLink;
+  parProfile.appendChild(aLink);
+  parProfile.textContent = `Profile:  ${profileLink}`;
+  divCardInfo.appendChild(parProfile);
+
+  let parFollowers = document.createElement("p");
+  parFollowers.textContent = `Followers: ${followers}`;
+  divCardInfo.appendChild(parFollowers);
+
+  let parFollowing = document.createElement("p");
+  parFollowing.textContent = `Following: ${followingP}`;
+  divCardInfo.appendChild(parFollowing);
+
+  let parBio = document.createElement("p");
+  parBio.textContent = `Bio: ${bio}`;
+  divCardInfo.appendChild(parBio);
+
+  return divCard;
+}
+
+// card.appendChild(cardCreator())
+console.log(cardCreator());
+
+let Oksana = cardCreator("https://avatars0.githubusercontent.com/u/51142472?s=460&v=4", "Oksana", "OksanaK24", "Chicago", "https://api.github.com/users/OksanaK24", "followers", "following", "bio")
+card.appendChild(Oksana);
 
 /* List of LS Instructors Github username's: 
   tetondan
@@ -53,3 +111,6 @@ const followersArray = [];
   luishrd
   bigknell
 */
+
+let githubUser = axios.get("https://api.github.com/users/OksanaK24")
+console.log(githubUser)
